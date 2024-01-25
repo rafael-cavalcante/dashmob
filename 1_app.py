@@ -62,6 +62,20 @@ fig_por_estado.update_layout(xaxis_title= "Estado", yaxis_title= "Quantidade")
 
 st.plotly_chart(fig_por_estado, use_container_width=True)
 
+col3, col4 = st.columns(2)
+
+#Gráfico 05
+acidentes_causa_principal = df[df["causa_principal"] == "Sim"]
+
+contagem_acidentes = acidentes_causa_principal['tipo_acidente'].value_counts().reset_index(name="total")
+
+seis_causas_principais = contagem_acidentes.head(6)
+
+fig_causas = px.pie(seis_causas_principais, values="total", names="tipo_acidente", title="Acidentes por causa", color="tipo_acidente")
+fig_causas.update_layout(title_text='Gráfico de pizza de acidentes por causa')
+
+col3.plotly_chart(fig_causas, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
