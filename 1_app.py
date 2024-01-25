@@ -37,6 +37,23 @@ fig_contagem_por_dias_semana.update_layout(title_text='Contagem de dias da seman
 
 col1.plotly_chart(fig_contagem_por_dias_semana, use_container_width=True)
 
+#Gráfico 03
+df_feridos_mortos = df.groupby('dia_semana')[['feridos_leves', 'feridos_graves', 'mortos']].sum().reset_index()
+
+df_feridos_mortos['dia_semana'] = pd.Categorical(df_feridos_mortos['dia_semana'], categories=ordem_dias_semana, ordered=True)
+
+df_feridos_mortos = df_feridos_mortos.sort_values(by=["dia_semana"]).reset_index(drop=True)
+
+df_feridos_mortos = pd.melt(df_feridos_mortos, id_vars='dia_semana', var_name='tipo', value_name='quantidade')
+
+# Criar o gráfico utilizando o Plotly Express
+fig_feridos_mortos = px.bar(df_feridos_mortos, x='dia_semana', y='quantidade', color='tipo',
+             barmode='group', title='Estatísticas por dia da semana',
+             labels={'quantidade': 'Quantidade', 'tipo': 'Tipo'})
+fig_feridos_mortos.update_layout(xaxis_title= "Dia da semana", yaxis_title= "Quantidade")
+
+col2.plotly_chart(fig_feridos_mortos, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
