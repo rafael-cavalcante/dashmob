@@ -7,7 +7,9 @@ st.set_page_config(
     page_icon="📊",
     layout="wide")
 
-df = pd.read_csv("acidentes2023_todas_causas_tipos.csv", delimiter=";", encoding="ISO-8859-1")
+#df = pd.read_csv("acidentes2023_todas_causas_tipos.csv", delimiter=";", encoding="ISO-8859-1")
+
+df = pd.read_csv("acidentes2023_todas_causas_tipos.csv")
 
 st.title("📊 DashMob Acidentes Rodoviarios PRF - 2023")
 
