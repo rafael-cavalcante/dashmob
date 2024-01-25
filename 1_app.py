@@ -54,6 +54,14 @@ fig_feridos_mortos.update_layout(xaxis_title= "Dia da semana", yaxis_title= "Qua
 
 col2.plotly_chart(fig_feridos_mortos, use_container_width=True)
 
+#Gráfico 04
+df_uf = df["uf"].value_counts().reset_index(name="total")
+
+fig_por_estado = px.bar(df_uf, x="uf", y="total", color="total", title= "Quantidade de acidentes por estado", labels={'uf': 'Quantidade'})
+fig_por_estado.update_layout(xaxis_title= "Estado", yaxis_title= "Quantidade")
+
+st.plotly_chart(fig_por_estado, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
