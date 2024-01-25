@@ -132,7 +132,17 @@ dataset_veiculos_ordenado = dataset_veiculos.sort_values('dia_semana')
 fig_acidentes_veiculo = px.histogram(dataset_veiculos_ordenado, x='dia_semana', y='total', color='tipo_veiculo', title="Quantidade de acidentes <br> Dia da semana x Tipo veiculo", text_auto=True,labels={'tipo_veiculo': 'Tipo de veiculo'})
 fig_acidentes_veiculo.update_layout(xaxis_title= "Dia da semana", yaxis_title= "Quantidade")
 
-col6.plotly_chart(fig_acidentes_veiculo , use_container_width=True)
+col6.plotly_chart(fig_acidentes_veiculo, use_container_width=True)
+
+#Gráfico 10
+semana_column = df["dia_semana"]
+
+horario_column = horarios_ordenados = sorted(df["horario"], key=lambda x: tuple(map(int, x.split(':'))))
+
+fig_horario = px.scatter(x=horario_column, y=semana_column, title="Concentração de acidente por dia e horario")
+fig_horario.update_layout(xaxis_title='Horario', yaxis_title='Dia da semana')
+
+st.plotly_chart(fig_horario, use_container_width=True)
 
 df_estados = df["uf"].unique()
 
