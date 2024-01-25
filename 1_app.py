@@ -76,6 +76,13 @@ fig_causas.update_layout(title_text='Gráfico de pizza de acidentes por causa')
 
 col3.plotly_chart(fig_causas, use_container_width=True)
 
+#Gráfico 06
+dataset_genero = df["sexo"].value_counts().reset_index(name="total")
+
+fig_genero = px.pie(dataset_genero, values="total", names="sexo", title="Distribuição de acidentes por gênero")
+
+col4.plotly_chart(fig_genero, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
