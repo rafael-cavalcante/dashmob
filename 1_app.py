@@ -13,6 +13,8 @@ st.title("📊 DashMob Acidentes Rodoviarios PRF - 2023")
 
 st.header("Painel sobre Mobilidade `version 1`")
 
+ordem_dias_semana = ['segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado', 'domingo']
+
 #Gráfico 01
 df_tipo_acidente = df['tipo_acidente'].value_counts().reset_index(name="total")
 
@@ -20,6 +22,20 @@ fig_tipos_acidente = px.bar(df_tipo_acidente, x="tipo_acidente", y="total", colo
 fig_tipos_acidente.update_layout(xaxis_title= "Tipo de Acidente", yaxis_title= "Quantidade")
 
 st.plotly_chart(fig_tipos_acidente, use_container_width=True)
+
+col1, col2 = st.columns(2)
+
+#Gráfico 02
+df_dia_semana = df["dia_semana"].value_counts().reset_index(name="total")
+
+df_dia_semana['dia_semana'] = pd.Categorical(df_dia_semana['dia_semana'], categories=ordem_dias_semana, ordered=True)
+
+df_dia_semana = df_dia_semana.sort_values(by=["dia_semana"]).reset_index(drop=True)
+
+fig_contagem_por_dias_semana = px.bar(df_dia_semana, x="dia_semana", y="total", color="total")
+fig_contagem_por_dias_semana.update_layout(title_text='Contagem de dias da semana', xaxis_title='Dias da semana', yaxis_title='Contagem')
+
+col1.plotly_chart(fig_contagem_por_dias_semana, use_container_width=True)
 
 df_estados = df["uf"].unique()
 
