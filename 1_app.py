@@ -106,6 +106,16 @@ fig_contagem_total_meses.update_layout(xaxis_title= "Mês", yaxis_title= "Quanti
 
 st.plotly_chart(fig_contagem_total_meses, use_container_width=True)
 
+col5, col6 = st.columns(2)
+
+#Gráfico 08
+dataset_causa = df["causa_acidente"].value_counts().reset_index(name="total")[0:9]
+
+fig_causa = px.histogram(dataset_causa, x="total", y="causa_acidente", title="Top 10 maiores causas de acidentes")
+fig_causa.update_layout(xaxis_title='Número acidentes', yaxis_title='Causas')
+
+col5.plotly_chart(fig_causa, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
