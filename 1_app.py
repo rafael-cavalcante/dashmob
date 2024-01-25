@@ -83,6 +83,29 @@ fig_genero = px.pie(dataset_genero, values="total", names="sexo", title="Distrib
 
 col4.plotly_chart(fig_genero, use_container_width=True)
 
+#Gráfico 07
+# Convertendo a coluna "data_inversa" para tipo datetime, se necessário
+df["data_inversa"] = pd.to_datetime(df["data_inversa"])
+
+# Extraindo o mês da coluna "data_inversa"
+df["mes"] = df["data_inversa"].dt.month
+
+# Obtendo as contagens dos valores únicos nos meses
+contagem_total_meses = df["mes"].value_counts().sort_index()
+
+# Mapeando os números dos meses para nomes dos meses
+nomes_meses = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+]
+contagem_total_meses.index = [nomes_meses[mes - 1] for mes in contagem_total_meses.index]
+
+# Criando o gráfico de barras com cores diferentes
+fig_contagem_total_meses = px.line(contagem_total_meses, x=contagem_total_meses.index, y=contagem_total_meses.values, labels={'x': 'Meses', 'y': 'Contagem'}, title='Contagem total de acidentes por mês')
+fig_contagem_total_meses.update_layout(xaxis_title= "Mês", yaxis_title= "Quantidade")
+
+st.plotly_chart(fig_contagem_total_meses, use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
