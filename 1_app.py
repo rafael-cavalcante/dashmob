@@ -116,6 +116,24 @@ fig_causa.update_layout(xaxis_title='Número acidentes', yaxis_title='Causas')
 
 col5.plotly_chart(fig_causa, use_container_width=True)
 
+#Gráfico 09
+top10_veiculo = df.groupby('tipo_veiculo').size().sort_values(ascending=False).head(10).reset_index()
+
+df2 = df[df['tipo_veiculo'].isin(top10_veiculo['tipo_veiculo'])]
+
+dataset_veiculos = df2.groupby(['tipo_veiculo', 'dia_semana']).size().sort_values(ascending=False).reset_index(name="total")
+
+ordem_dias_semana = ['segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado', 'domingo']
+
+dataset_veiculos['dia_semana'] = pd.Categorical(dataset_veiculos['dia_semana'], categories=ordem_dias_semana, ordered=True)
+
+dataset_veiculos_ordenado = dataset_veiculos.sort_values('dia_semana')
+
+fig_acidentes_veiculo = px.histogram(dataset_veiculos_ordenado, x='dia_semana', y='total', color='tipo_veiculo', title="Quantidade de acidentes <br> Dia da semana x Tipo veiculo", text_auto=True,labels={'tipo_veiculo': 'Tipo de veiculo'})
+fig_acidentes_veiculo.update_layout(xaxis_title= "Dia da semana", yaxis_title= "Quantidade")
+
+col6.plotly_chart(fig_acidentes_veiculo , use_container_width=True)
+
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
