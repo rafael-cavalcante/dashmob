@@ -144,6 +144,7 @@ fig_horario.update_layout(xaxis_title='Horario', yaxis_title='Dia da semana')
 
 st.plotly_chart(fig_horario, use_container_width=True)
 
+#Gráficos dinâmicos
 df_estados = df["uf"].unique()
 
 list_estados = list(df_estados)
@@ -156,3 +157,20 @@ if(estado == "TODOS"):
     df_municipios = df
 else:
     df_municipios = df[df["uf"] == estado]
+    
+col7, col8 = st.columns(2)
+
+#Gráfico 11 e 12
+df_estado = df_municipios['tipo_acidente'].value_counts().sort_values(ascending=False).reset_index(name="total")[0:10]
+
+fig_tipos_acidentes_por_estado = px.bar(df_estado, x="tipo_acidente", y="total", color="tipo_acidente",  title="Top 10 tipos acidentes do estado", labels={'color': 'Tipo de acidente'})
+fig_tipos_acidentes_por_estado.update_layout(xaxis_title="Tipo de Acidente", yaxis_title="Quantidade")
+
+col7.plotly_chart(fig_tipos_acidentes_por_estado, use_container_width=True)
+
+df_municipios = df_municipios["municipio"].value_counts().sort_values(ascending=False).reset_index(name="total")[0:10]
+
+fig_acidentes_por_municipios = px.bar(df_municipios, x="municipio", y="total", title="Top 10 municipios com indice de acidentes no estado")
+fig_acidentes_por_municipios.update_layout(xaxis_title="Municipios", yaxis_title="Quantidade")
+
+col8.plotly_chart(fig_acidentes_por_municipios, use_container_width=True)
